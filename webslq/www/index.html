@@ -38,8 +38,48 @@
     </style>
     <title>Websql practice</title>
 </head>
-<body>  
+<body>
+  <div data-role="page">
+    <div data-role="header"><h1>Database Storage</h1></div>
+    <div data-role="main" class="ui-content">
+      <label for="name"></label>
+      <input type="text" id="name"/>
+      <label for="email">Email</label>
+      <input type="text" id="email"/>
+      <button id="btnSave" type="submit">Save</button>
+      <button id="showList">Show Employees</button>
+    </div><!-- main -->
+  </div>  <!-- page -->
   <script type="text/javascript" src="cordova.js"></script>
+  <script>
+    var db;
+    window.onload=function(){
+      document.getElementById("btnSave").addEventListener("click",saveData);
+      db=window.openDatabase("employees","1.0","Storage employees",200000);
+    }
+
+    function saveData(e){
+      db.transaction(function(transaction){
+        var name=document.getElementById("name").value;
+        var email=document.getElementById("email").value;
+        //console.dir(transaction);
+        transaction.executeSql("CREATE TABLE IF NOT EXISTS employeesList(id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Email TEXT NOT NULL)");
+        var sql="INSERT INTO employeesList (Name,Email) VALUES ('"+name+"', '"+email+"')";
+        console.log(sql);
+        transaction.executeSql(sql);
+      },onError,onSuccess);
+    }
+
+
+    function onSuccess(e){
+      console.log("Inserting employee successful");
+    }
+
+    function onError(e){
+      console.log("There is a error");
+      console.dir(e);
+    }
+  </script>
 </body>
 
 </html>
