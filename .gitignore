@@ -5,3 +5,5 @@ localstorage/platforms/browser/
 localstorage/plugins/
 webslq/platforms/
 webslq/plugins/
+geolocationexample/platforms/
+geolocationexample/plugins/
