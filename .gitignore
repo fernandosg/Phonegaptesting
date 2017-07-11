@@ -8,3 +8,5 @@ webslq/plugins/
 geolocationexample/platforms/
 geolocationexample/plugins/
 geolocationexample/www/js/key.js
+googlemapgeolocation/platforms/
+googlemapgeolocation/plugins/
