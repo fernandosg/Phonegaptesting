@@ -3,3 +3,5 @@ ui_samples/platforms/browser/cordova/
 ui_samples/platforms/
 localstorage/platforms/browser/
 localstorage/plugins/
+webslq/platforms/
+webslq/plugins/
