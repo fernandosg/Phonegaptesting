@@ -42,13 +42,14 @@ under the License.
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="./js/key.js"></script>
 <title>Geolocation example</title>
 </head>
 
 <body>
   <div>
     <h1>Geolocation</h1>
-    <label id="test"></label>
+    <label id="result"></label>
     <p>
       <label>Latitude: </label>
       <output id="lat"></output>
@@ -77,13 +78,36 @@ under the License.
       document.getElementById("lat").innerHTML=position.coords.latitude;
       document.getElementById("lng").innerHTML=position.coords.longitude;
       document.getElementById("alt").innerHTML=position.coords.altitude;
+      getAreaInfo(position.coords.latitude,position.coords.longitude);
       //alert("test");
     },error,options);
   }
 
-  function success(position){
-    document.getElementById("lat").innerHTML=position.coords.latitude;
-    document.getElementById("lng").innerHTML=position.coords.longitude;
+  var xmlHTTP;
+  function getAreaInfo(lat,lng){
+    var url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+    url+=lat+",";
+    url+=lng;
+    url+="&radius=500&types=food&key="+key;
+    xmlHTTP=new XMLHttpRequest();
+    xmlHTTP.onreadystatechange=processPlace;
+    xmlHTTP.open("GET",url,true);
+    xmlHTTP.send();
+  }
+
+  function processPlace(){
+    var output="";
+    if(xmlHTTP.readyState==4){
+      var jsonResult=xmlHTTP.responseText;
+      var result=JSON.parse(jsonResult);
+      var resultArray=result.results;
+      for(var i=0,length=resultArray.length;i<length;i++){
+        output+=resultArray[i].name;
+        output+="<br/>";
+        output+=resultArray[i].vicinity+"<br/>";
+      }
+      document.getElementById("result").innerHTML=output;
+    }
   }
 
   function error(error){
