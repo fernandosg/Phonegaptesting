@@ -48,6 +48,8 @@
       <input type="text" id="email"/>
       <button id="btnSave" type="submit">Save</button>
       <button id="showList">Show Employees</button>
+      <ul id="members" data-role="listview">
+      </ul>
     </div><!-- main -->
   </div>  <!-- page -->
   <script type="text/javascript" src="cordova.js"></script>
@@ -67,7 +69,22 @@
         var sql="INSERT INTO employeesList (Name,Email) VALUES ('"+name+"', '"+email+"')";
         console.log(sql);
         transaction.executeSql(sql);
+        transaction.executeSql("SELECT * FROM employeesList",[],getSuccess,getError);
       },onError,onSuccess);
+    }
+
+    function getSuccess(e,result){
+      for(var x=0,length=result.rows.length;x<length;x++){
+        var out="<li>"+result.rows[x].Name+"<br/>"+result.rows[x].Email+"</li>";
+        document.getElementById("members").innerHTML+=out;
+      }
+
+      $("#members").listview("refresh"); // Should be init the listview on the flight after elements is added
+    }
+
+    function getError(e){
+      console.log(" ERROR");
+      console.dir(e);
     }
 
 
