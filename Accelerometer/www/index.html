@@ -40,15 +40,31 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Hello World</title>
 </head>
 
 <body>
     <div class="app">
-
+      <p>Position in X: <output id="outX"></output></p>
+      <p>Position in Y: <output id="outY"></output></p>
+      <p>Position in Z: <output id="outZ"></output></p>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
+    <script>
+      window.onload=function(){
+        var watchId=navigator.accelerometer.watchAcceleration(success,fail,{frequency:1000});
+      }
+
+      function success(acceleration) {
+        document.getElementById("outX").innerHTML=acceleration.x;
+        document.getElementById("outY").innerHTML=acceleration.y;
+        document.getElementById("outZ").innerHTML=acceleration.z;
+      }
+
+      function fail(e) {
+        alert("Accelerometer error");
+      }
+    </script>
 </body>
 
 </html>
