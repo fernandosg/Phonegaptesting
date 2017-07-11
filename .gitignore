@@ -13,3 +13,5 @@ googlemapgeolocation/plugins/
 googlemapgeolocation/www/js/key.js
 Media/platforms/
 Media/plugins/
+Accelerometer/platforms/
+Accelerometer/plugins/
