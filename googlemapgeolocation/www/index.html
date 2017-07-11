@@ -39,21 +39,47 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <style>
+      #canvas{
+        height:300px;
+      }
+    </style>
     <title>Hello World</title>
 </head>
 
 <body>
-    <div class="app">
-        <h1>PhoneGap</h1>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
-        </div>
+    <div>
+      <button id="btnLocation">Get location</button>
+      <div id="result"></div>
+      <div id="canvas"></div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
+    <script type="text/javascript" src="./js/key.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key="+key async defer></script>
+    <script>
+      var options;
+      window.onload=function(){
+        options={maximumAge:3000,timeout:5000,enableHighAccuracy:true};
+        document.getElementById("btnLocation").addEventListener("click",function(){
+          navigator.geolocation.getCurrentPosition(success,failure,options);
+        });
+      }
+
+      function success(position){
+        var lat=position.coords.latitude;
+        var lng=position.coords.longitude;
+        var out="<strong>Latitude: </strong>"+lat+"<br/><strong>Longitude: </strong>"+lng;
+        document.getElementById("result").innerHTML=out;
+        var mapOptions={
+          center:{lat:lat,lng:lng},
+          zoom:15
+        }
+        var map=new google.maps.Map(document.getElementById("canvas"),mapOptions);
+      }
+
+      function failure(e) {
+        alert("Error: "+e.message);
+      }
     </script>
 </body>
 
