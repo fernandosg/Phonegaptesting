@@ -38,15 +38,48 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <title>Picture take</title>
 </head>
 
 <body>
     <div class="app">
-
+      <img id="imgArea"/>
+      <button id="btnTakePicture">Take picture</button>
+      <button id="btnClear">Clear picture</button>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
+    <script>
+      window.onload=function(){
+        document.getElementById("btnTakePicture").addEventListener("click",takePick);
+        document.getElementById("btnClear").addEventListener("click",function(e){
+          document.getElementById("imgArea").src="";
+        });
+      }
+
+      function takePick(e){
+        var options={
+          quality:80,
+          destinationType:Camera.DestinationType.FILE_URL,
+          encodingType:Camera.EncodingType.JPEG,
+          mediaType:Camera.MediaType.PICTURE,
+          targetWidth:1200,
+          targetHeight:800
+        };
+
+        navigator.camera.getPicture(success,fail,options);
+      }
+
+      function success(picture){
+        document.getElementById("imgArea").src=picture;
+      }
+
+      function fail(e){
+        alert("Image failed: "+e.message);
+      }
+    </script>
 </body>
 
 </html>
