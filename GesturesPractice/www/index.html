@@ -60,10 +60,23 @@
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script>
+      /*
       var mc=new Hammer(document.getElementById("gestureDiv"));
       mc.on("panleft panright tap press",function(ev){
         document.getElementById("result").innerHTML=ev.type+" gesture detected";
       })
+      */
+
+      var mc=new Hammer(document.getElementById("gestureDiv"));
+      mc.on("swipeleft swiperight",function(ev){
+        var out=ev.type+" gesture detected.<br/>";
+        out+="Distance: "+ev.distance+"<br/>";
+        out+="Angle: "+ev.angle+"<br/>";
+        out+="DeltaX: "+ev.deltaX+"<br/>";
+        out+="DeltaY: "+ev.deltaY+"<br/>";
+        document.getElementById("result").innerHTML=out;
+      })
+
     </script>
 </body>
 
