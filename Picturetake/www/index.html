@@ -48,6 +48,7 @@
     <div class="app">
       <img id="imgArea"/>
       <button id="btnTakePicture">Take picture</button>
+      <button id="btnSelectPicture">Select a picture from gallery.</button>
       <button id="btnClear">Clear picture</button>
       <label for="thumbs">Take a picture like thumb</label>
       <input type="checkbox" id="thumbs"/>
@@ -58,6 +59,14 @@
     <script>
       window.onload=function(){
         document.getElementById("btnTakePicture").addEventListener("click",takePick);
+        document.getElementById("btnSelectPicture").addEventListener("click",function(){
+          var options_select={
+            quality:80,
+            destinationType:Camera.DestinationType.FILE_URL,
+            sourceType:Camera.PictureSourceType.PHOTOLIBRARY
+          };
+          navigator.camera.getPicture(successSelect,fail,options_select);
+        })
         document.getElementById("btnClear").addEventListener("click",function(e){
           document.getElementById("imgArea").src="";
         });
@@ -86,9 +95,15 @@
         navigator.camera.getPicture(success,fail,options);
       }
 
+      function successSelect(picture){
+        document.getElementById("imgArea").src=picture;
+      }
+
       function success(picture){
         document.getElementById("imgArea").src=picture;
       }
+
+
 
       function fail(e){
         alert("Image failed: "+e.message);
