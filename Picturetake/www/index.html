@@ -49,6 +49,10 @@
       <img id="imgArea"/>
       <button id="btnTakePicture">Take picture</button>
       <button id="btnClear">Clear picture</button>
+      <label for="thumbs">Take a picture like thumb</label>
+      <input type="checkbox" id="thumbs"/>
+      <label for="hq">High Quality</label>
+      <input type="checkbox" id="hq"/>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script>
@@ -57,18 +61,28 @@
         document.getElementById("btnClear").addEventListener("click",function(e){
           document.getElementById("imgArea").src="";
         });
+
       }
 
       function takePick(e){
-        var options={
+        options={
           quality:80,
           destinationType:Camera.DestinationType.FILE_URL,
           encodingType:Camera.EncodingType.JPEG,
           mediaType:Camera.MediaType.PICTURE,
-          targetWidth:1200,
-          targetHeight:800
+          targetWidth:600,
+          targetHeight:400
         };
 
+
+        if($("#thumbs").is(":checked")){//$("#thumbs").change(function(){
+          options.targetWidth=150;
+          options.targetHeight=100;
+        }
+
+        if($("#hq").is(":checked")){//$("#thumbs").change(function(){
+          options.quality=90;
+        }
         navigator.camera.getPicture(success,fail,options);
       }
 
